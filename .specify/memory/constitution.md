@@ -1,50 +1,149 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+Version: 1.0.0 → 1.0.1 (translate constitution to English)
+Modified principles: All principle descriptions translated from Japanese to English
+Added sections: N/A
+Removed sections: N/A
+Templates requiring updates:
+  ✅ plan-template.md - No changes needed (already in English)
+  ✅ spec-template.md - No changes needed (already in English)
+  ✅ tasks-template.md - No changes needed (already in English)
+Follow-up TODOs: None
+-->
+
+# Just Chat Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Type Safety First
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Prioritize type safety in all TypeScript implementations.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+- Define types explicitly; prohibit use of `any` type (use `unknown` with proper type guards when absolutely necessary)
+- Annotate all function parameters and return values with types
+- Leverage generics to ensure type reusability and safety
+- Enable strict mode for rigorous type checking
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Rationale**: Chat applications involve multiple data flows including message transmission and user management. Type safety prevents runtime errors and enables safe refactoring and feature additions.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. Single Responsibility Architecture
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Implement both backend and frontend with architecture following the Single Responsibility Principle.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Each module/component MUST have a single responsibility
+- Clearly define inter-layer dependencies and prohibit circular references
+- Separate business logic from presentation logic
+- Clearly separate data access layer (Prisma), business logic layer, and API layer
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Rationale**: Single Responsibility Principle clarifies each module's role, improving testability, maintainability, and extensibility to handle increasing chat application complexity.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### III. Container-First Infrastructure
+
+Containerize FE, BE, and DB each using Docker.
+
+- Each service MUST have its own Dockerfile
+- Manage development environment centrally with docker-compose
+- Thoroughly externalize configuration through environment variables
+- Control inter-container communication through network settings
+
+**Rationale**: Containerization ensures development environment consistency, simplifies deployment, and eliminates environment discrepancies.
+
+### IV. Monorepo Organization
+
+Organize FE and BE in a monorepo structure.
+
+- Manage common development tools (mise, etc.) at root directory
+- Leverage package manager workspace features
+- Share common type definitions and configurations appropriately
+- Enable independent build and test execution for each service
+
+**Rationale**: Monorepo facilitates type definition sharing between frontend and backend, enabling efficient development while maintaining consistency.
+
+### V. Figma-Driven Frontend
+
+Leverage Figma MCP server for frontend screen implementation.
+
+- Prioritize code generation from designs
+- Clearly map Figma design system to code components
+- Adjust generated code to comply with type safety and architecture principles
+- Establish update process for design changes
+
+**Rationale**: Minimizes design-code divergence while achieving efficient UI implementation and consistency maintenance.
+
+## Technical Constraints
+
+### Technology Stack
+
+- Frontend: Next.js (Web-based), TypeScript
+- Backend: Express.js, TypeScript
+- Database: PostgreSQL
+- ORM: Prisma
+- Containers: Docker, Docker Compose
+- Toolchain: mise
+
+### Code Quality Standards
+
+- Maintain code quality through ESLint and Prettier
+- Maintain zero type errors
+- Maintain zero build errors
+- Remove unused imports and code
+
+### Performance Requirements
+
+- Frontend: Initial render time < 2 seconds
+- Backend: API response time p95 < 200ms
+- Database: Optimize queries (avoid N+1 problems)
+
+## Development Workflow
+
+### Branch Strategy
+
+- main branch MUST always be in a deployable state
+- Feature development occurs on branches with feature/ prefix
+- Conduct code reviews through Pull Requests
+
+### Code Review Requirements
+
+- All code changes MUST be reviewed through PRs
+- Verify compliance with type safety principles
+- Verify no violations of Single Responsibility Principle
+- Verify appropriate tests are added (when applicable)
+
+### Testing Strategy
+
+- Unit tests: Validate business logic (as needed)
+- Integration tests: Validate API endpoints (as needed)
+- E2E tests: Validate user flows (as needed)
+- Implement tests appropriately based on functional requirements
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### Amendment Process
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Changes to this constitution MUST follow this process:
+
+1. Document the proposed change
+2. Analyze impact scope (templates, existing code impact)
+3. Obtain team consensus
+4. Update version (semantic versioning)
+5. Synchronize related templates and documents
+
+### Versioning Policy
+
+- MAJOR: Backward incompatible principle removals or redefinitions
+- MINOR: New principle/section additions or material expansions
+- PATCH: Clarifications, wording fixes, typo corrections, non-semantic refinements
+
+### Compliance Review
+
+- Verify compliance with this constitution in all PR/reviews
+- Deviations from principles MUST be justified and documented
+- Complexity introductions MUST be recorded with alternative consideration results
+
+### Runtime Guidance
+
+For detailed implementation guidance, refer to the project README.md and each template file.
+
+---
+
+**Version**: 1.0.1 | **Ratified**: 2025-11-07 | **Last Amended**: 2025-11-07
