@@ -1,0 +1,5 @@
+[tools]
+node = '22.20.0'
+pnpm = "10.18.1"
+python = '3.13'
+uv = 'latest'
