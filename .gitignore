@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+dist/
+build/
+*.log
+.env*
+!.env.example
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.tmp
+
+# Testing
+coverage/
+
+# Next.js
+.next/
+out/
+
+# Prisma
+*.db
+*.db-journal
+
+# Docker
+.dockerignore
