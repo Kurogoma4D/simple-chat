@@ -1,9 +1,4 @@
-import {
-  ClientMessage,
-  ServerMessage,
-  Message,
-  User,
-} from '../../../shared/types/websocket';
+import { ClientMessage, ServerMessage } from '../../../shared/types/websocket';
 
 export type MessageHandler = (message: ServerMessage) => void;
 

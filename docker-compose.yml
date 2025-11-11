@@ -23,6 +23,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: simple-chat-backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/chatdb
+      WS_PORT: 3001
+      NODE_ENV: development
+      SESSION_TIMEOUT: 1800000
     ports:
       - "3001:3001"
     volumes:

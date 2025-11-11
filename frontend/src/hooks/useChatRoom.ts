@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react';
-import { Message, User, ServerMessage } from '../../../shared/types/websocket';
+import { Message } from '../../../shared/types/message';
+import { User } from '../../../shared/types/user';
+import { ServerMessage } from '../../../shared/types/websocket';
 
 interface ChatRoomState {
   userId: string | null;
@@ -17,14 +19,17 @@ export function useChatRoom() {
   });
 
   const handleServerMessage = useCallback((message: ServerMessage) => {
+    console.log('[useChatRoom] Handling message type:', message.type);
     switch (message.type) {
       case 'welcome':
+        console.log('[useChatRoom] Welcome message received, userId:', message.userId);
         setState((prev) => ({
           ...prev,
           userId: message.userId,
           messages: message.history,
           error: null,
         }));
+        console.log('[useChatRoom] State updated with userId');
         break;
 
       case 'message':

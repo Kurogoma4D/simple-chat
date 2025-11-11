@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { WebSocketClient } from '../services/websocket';
 import { ServerMessage } from '../../../shared/types/websocket';
 
@@ -10,14 +10,20 @@ interface UseWebSocketOptions {
 export function useWebSocket({ url, onMessage }: UseWebSocketOptions) {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionError, setConnectionError] = useState<string | null>(null);
-  const wsClient = useRef<WebSocketClient | null>(null);
+  const wsClientRef = useRef<WebSocketClient | null>(null);
+  const onMessageRef = useRef(onMessage);
+
+  // Keep onMessage ref up to date
+  useEffect(() => {
+    onMessageRef.current = onMessage;
+  }, [onMessage]);
 
   useEffect(() => {
     const client = new WebSocketClient(url);
-    wsClient.current = client;
+    wsClientRef.current = client;
 
     client.onMessage((message) => {
-      onMessage(message);
+      onMessageRef.current(message);
     });
 
     client
@@ -43,10 +49,19 @@ export function useWebSocket({ url, onMessage }: UseWebSocketOptions) {
       clearInterval(heartbeatInterval);
       client.disconnect();
     };
-  }, [url, onMessage]);
+  }, [url]);
+
+  const join = useCallback((name: string) => {
+    wsClientRef.current?.join(name);
+  }, []);
+
+  const sendMessage = useCallback((content: string) => {
+    wsClientRef.current?.sendMessage(content);
+  }, []);
 
   return {
-    wsClient: wsClient.current,
+    join,
+    sendMessage,
     isConnected,
     connectionError,
   };

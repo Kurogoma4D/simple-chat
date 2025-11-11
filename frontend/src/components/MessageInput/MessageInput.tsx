@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { validateMessageContent } from '../../utils/validation';
+import Image from 'next/image';
 
 interface MessageInputProps {
   onSendMessage: (content: string) => void;
@@ -32,26 +33,43 @@ export function MessageInput({ onSendMessage, disabled = false }: MessageInputPr
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border-t border-gray-300">
-      {error && <p className="mb-2 text-sm text-red-600">{error}</p>}
-      <div className="flex gap-2">
+    <form onSubmit={handleSubmit} className="w-full flex items-center gap-6">
+      <div
+        className="flex-1 flex items-center px-4 py-1 border rounded-full"
+        style={{
+          backgroundColor: '#fffbfe',
+          borderColor: error ? '#b3261e' : '#79747e',
+          height: '56px'
+        }}
+      >
         <input
           type="text"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="メッセージを入力"
+          className="flex-1 bg-transparent focus:outline-none"
+          style={{ color: '#1c1b1f' }}
+          placeholder="メッセージを入力..."
           maxLength={1000}
           disabled={disabled}
         />
-        <button
-          type="submit"
-          disabled={disabled}
-          className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          送信
-        </button>
       </div>
+      <button
+        type="submit"
+        disabled={disabled}
+        className="flex items-center justify-center rounded-full flex-shrink-0 hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{
+          backgroundColor: '#6750a4',
+          width: '48px',
+          height: '48px'
+        }}
+      >
+        <Image
+          src="/send-icon.svg"
+          alt="Send"
+          width={24}
+          height={24}
+        />
+      </button>
     </form>
   );
 }

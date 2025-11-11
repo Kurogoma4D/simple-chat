@@ -11,33 +11,38 @@ const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001/ws';
 
 export default function Home() {
   const [hasJoined, setHasJoined] = useState(false);
-  const [userName, setUserName] = useState('');
 
   const { userId, messages, activeUsers, error, handleServerMessage, clearError } = useChatRoom();
 
-  const { wsClient, isConnected, connectionError } = useWebSocket({
+  const { join, sendMessage, isConnected, connectionError } = useWebSocket({
     url: WS_URL,
     onMessage: handleServerMessage,
   });
 
   const handleJoin = (name: string) => {
-    setUserName(name);
-    if (wsClient) {
-      wsClient.join(name);
-      setHasJoined(true);
+    console.log('[handleJoin] Called with name:', name, 'isConnected:', isConnected);
+    if (!isConnected) {
+      console.error('[handleJoin] WebSocket is not connected');
+      return;
     }
+    join(name);
+    setHasJoined(true);
+    console.log('[handleJoin] Join message sent, hasJoined set to true');
   };
 
   const handleSendMessage = (content: string) => {
-    if (wsClient && isConnected) {
-      wsClient.sendMessage(content);
+    if (isConnected) {
+      sendMessage(content);
     }
   };
 
+  console.log('[Home] Rendering - hasJoined:', hasJoined, 'userId:', userId, 'isConnected:', isConnected);
+
   if (!hasJoined || !userId) {
+    console.log('[Home] Showing JoinForm');
     return (
       <>
-        <JoinForm onJoin={handleJoin} />
+        <JoinForm onJoin={handleJoin} onlineCount={activeUsers.length} />
         {(error || connectionError) && (
           <ErrorNotification
             message={error || connectionError || 'エラーが発生しました'}
@@ -48,6 +53,8 @@ export default function Home() {
     );
   }
 
+  console.log('[Home] Showing ChatRoom');
+
   return (
     <>
       <ChatRoom
@@ -55,6 +62,7 @@ export default function Home() {
         activeUsers={activeUsers}
         onSendMessage={handleSendMessage}
         isConnected={isConnected}
+        currentUserId={userId}
       />
       {error && <ErrorNotification message={error} onClose={clearError} />}
     </>

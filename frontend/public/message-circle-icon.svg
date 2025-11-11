@@ -1,0 +1,6 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Message Circle">
+<path d="M40 40H0V0H40V40Z" stroke="var(--stroke-0, white)"/>
+<path id="Vector" d="M13.1667 33.3333C16.3476 34.9651 20.0068 35.4071 23.4848 34.5796C26.9628 33.7522 30.0309 31.7097 32.1363 28.8203C34.2416 25.9309 35.2457 22.3845 34.9676 18.8203C34.6896 15.256 33.1476 11.9083 30.6197 9.38032C28.0917 6.85236 24.744 5.31042 21.1797 5.03236C17.6155 4.7543 14.0691 5.75841 11.1797 7.86374C8.29028 9.96908 6.24782 13.0372 5.42037 16.5152C4.59292 19.9932 5.0349 23.6524 6.66667 26.8333L3.33333 36.6667L13.1667 33.3333Z" stroke="var(--stroke-0, white)" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

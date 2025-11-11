@@ -3,7 +3,7 @@ import { JoinMessage, WelcomeMessage, UserJoinedMessage } from '../../../../shar
 import { UserService } from '../../services/UserService';
 import { MessageService } from '../../services/MessageService';
 import { SystemMessageService } from '../../services/SystemMessageService';
-import { validateUserName, getValidationError } from '../../utils/validation';
+import { getValidationError } from '../../utils/validation';
 import { connectionManager } from '../connectionManager';
 import { broadcastToOthers, sendToClient } from '../broadcast';
 
