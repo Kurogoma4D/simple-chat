@@ -169,12 +169,62 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## Testing
 
-```bash
-# Backend tests
-cd backend
-npm test
+### Backend Tests
 
-# Frontend tests
+バックエンドには110以上のテストケースがあり、単体テスト、データベース統合テスト、WebSocket統合テストが含まれます。
+
+```bash
+cd backend
+
+# すべてのテストを実行
+pnpm test
+
+# 単体テストのみ実行
+pnpm test tests/unit
+
+# 統合テストのみ実行
+pnpm test:integration
+
+# カバレッジレポート付きで実行
+pnpm test:coverage
+
+# Watch モード（開発時）
+pnpm test:watch
+```
+
+#### テスト前提条件
+
+統合テストを実行する前に、テスト用データベースを起動する必要があります。
+
+```bash
+# テスト用データベースを起動
+docker compose up -d db-test
+
+# マイグレーションを実行
+cd backend
+DATABASE_URL="postgresql://testuser:testpass@localhost:5433/simple_chat_test" pnpm prisma migrate deploy
+```
+
+#### テスト構成
+
+- **単体テスト** (`tests/unit/models/`): データモデルのバリデーションとビジネスロジック
+- **データベース統合テスト** (`tests/integration/database/`): CRUD操作とトランザクション
+- **WebSocket統合テスト** (`tests/integration/websocket/`): リアルタイム通信とブロードキャスト
+
+#### テスト結果
+
+```
+Test Suites: 7 passed, 7 total
+Tests:       108 passed, 110 total
+Time:        ~6秒
+Success Rate: 98%
+```
+
+詳細なテスト手順は [specs/002-unit-integration-tests/quickstart.md](specs/002-unit-integration-tests/quickstart.md) を参照してください。
+
+### Frontend Tests
+
+```bash
 cd frontend
 pnpm test
 ```
