@@ -61,17 +61,17 @@
 
 ### Implementation for User Story 1
 
-- [ ] T013 [P] [US1] Implement User model unit tests for valid data creation in backend/tests/unit/models/user.test.ts
-- [ ] T014 [P] [US1] Implement User model unit tests for validation (empty name, invalid UUID, name length) in backend/tests/unit/models/user.test.ts
-- [ ] T015 [P] [US1] Implement User model unit tests for online/offline state transitions in backend/tests/unit/models/user.test.ts
-- [ ] T016 [P] [US1] Implement User model unit tests for socketId lifecycle (set on connect, clear on disconnect) in backend/tests/unit/models/user.test.ts
-- [ ] T017 [P] [US1] Implement User model unit tests for timestamp fields (createdAt, updatedAt, lastActiveAt) in backend/tests/unit/models/user.test.ts
-- [ ] T018 [P] [US1] Implement Message model unit tests for valid user message creation in backend/tests/unit/models/message.test.ts
-- [ ] T019 [P] [US1] Implement Message model unit tests for valid system message creation (userId=null) in backend/tests/unit/models/message.test.ts
-- [ ] T020 [P] [US1] Implement Message model unit tests for validation (empty content, invalid type, content length) in backend/tests/unit/models/message.test.ts
-- [ ] T021 [P] [US1] Implement Message model unit tests for userId-userName consistency in backend/tests/unit/models/message.test.ts
-- [ ] T022 [P] [US1] Implement Message model unit tests for createdAt timestamp in backend/tests/unit/models/message.test.ts
-- [ ] T023 [US1] Run coverage report and verify 95%+ coverage for data model layer in backend/
+- [x] T013 [P] [US1] Implement User model unit tests for valid data creation in backend/tests/unit/models/user.test.ts
+- [x] T014 [P] [US1] Implement User model unit tests for validation (empty name, invalid UUID, name length) in backend/tests/unit/models/user.test.ts
+- [x] T015 [P] [US1] Implement User model unit tests for online/offline state transitions in backend/tests/unit/models/user.test.ts
+- [x] T016 [P] [US1] Implement User model unit tests for socketId lifecycle (set on connect, clear on disconnect) in backend/tests/unit/models/user.test.ts
+- [x] T017 [P] [US1] Implement User model unit tests for timestamp fields (createdAt, updatedAt, lastActiveAt) in backend/tests/unit/models/user.test.ts
+- [x] T018 [P] [US1] Implement Message model unit tests for valid user message creation in backend/tests/unit/models/message.test.ts
+- [x] T019 [P] [US1] Implement Message model unit tests for valid system message creation (userId=null) in backend/tests/unit/models/message.test.ts
+- [x] T020 [P] [US1] Implement Message model unit tests for validation (empty content, invalid type, content length) in backend/tests/unit/models/message.test.ts
+- [x] T021 [P] [US1] Implement Message model unit tests for userId-userName consistency in backend/tests/unit/models/message.test.ts
+- [x] T022 [P] [US1] Implement Message model unit tests for createdAt timestamp in backend/tests/unit/models/message.test.ts
+- [x] T023 [US1] Run coverage report and verify 95%+ coverage for data model layer in backend/
 
 **Checkpoint**: User Story 1 完了 - データモデルの単体テストが完全に機能し、独立してテスト可能
 
@@ -85,18 +85,18 @@
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Implement User CRUD test for create operation in backend/tests/integration/database/user-crud.test.ts
-- [ ] T025 [P] [US2] Implement User CRUD test for read/findMany operations in backend/tests/integration/database/user-crud.test.ts
-- [ ] T026 [P] [US2] Implement User CRUD test for update operation (isOnline, lastActiveAt) in backend/tests/integration/database/user-crud.test.ts
-- [ ] T027 [P] [US2] Implement User CRUD test for delete operation in backend/tests/integration/database/user-crud.test.ts
-- [ ] T028 [P] [US2] Implement User CRUD test for findMany with where clause (isOnline filter) in backend/tests/integration/database/user-crud.test.ts
-- [ ] T029 [P] [US2] Implement Message CRUD test for create operation with User relation in backend/tests/integration/database/message-crud.test.ts
-- [ ] T030 [P] [US2] Implement Message CRUD test for create system message (userId=null) in backend/tests/integration/database/message-crud.test.ts
-- [ ] T031 [P] [US2] Implement Message CRUD test for findMany ordered by createdAt DESC in backend/tests/integration/database/message-crud.test.ts
-- [ ] T032 [P] [US2] Implement Message CRUD test for User-Message relationship (foreign key) in backend/tests/integration/database/message-crud.test.ts
-- [ ] T033 [P] [US2] Implement Message CRUD test for delete User cascade (set userId to null) in backend/tests/integration/database/message-crud.test.ts
-- [ ] T034 [US2] Add transaction rollback tests for data isolation in backend/tests/integration/database/user-crud.test.ts
-- [ ] T035 [US2] Add concurrent test execution validation in backend/tests/integration/database/message-crud.test.ts
+- [x] T024 [P] [US2] Implement User CRUD test for create operation in backend/tests/integration/database/user-crud.test.ts
+- [x] T025 [P] [US2] Implement User CRUD test for read/findMany operations in backend/tests/integration/database/user-crud.test.ts
+- [x] T026 [P] [US2] Implement User CRUD test for update operation (isOnline, lastActiveAt) in backend/tests/integration/database/user-crud.test.ts
+- [x] T027 [P] [US2] Implement User CRUD test for delete operation in backend/tests/integration/database/user-crud.test.ts
+- [x] T028 [P] [US2] Implement User CRUD test for findMany with where clause (isOnline filter) in backend/tests/integration/database/user-crud.test.ts
+- [x] T029 [P] [US2] Implement Message CRUD test for create operation with User relation in backend/tests/integration/database/message-crud.test.ts
+- [x] T030 [P] [US2] Implement Message CRUD test for create system message (userId=null) in backend/tests/integration/database/message-crud.test.ts
+- [x] T031 [P] [US2] Implement Message CRUD test for findMany ordered by createdAt DESC in backend/tests/integration/database/message-crud.test.ts
+- [x] T032 [P] [US2] Implement Message CRUD test for User-Message relationship (foreign key) in backend/tests/integration/database/message-crud.test.ts
+- [x] T033 [P] [US2] Implement Message CRUD test for delete User cascade (set userId to null) in backend/tests/integration/database/message-crud.test.ts
+- [x] T034 [US2] Add transaction rollback tests for data isolation in backend/tests/integration/database/user-crud.test.ts
+- [x] T035 [US2] Add concurrent test execution validation in backend/tests/integration/database/message-crud.test.ts
 
 **Checkpoint**: User Story 2 完了 - データベース統合テストが完全に機能し、独立してテスト可能
 
@@ -110,15 +110,15 @@
 
 ### Implementation for User Story 3
 
-- [ ] T036 [P] [US3] Implement WebSocket connection test (client connects with username) in backend/tests/integration/websocket/connection.test.ts
-- [ ] T037 [P] [US3] Implement WebSocket connection test (User created with socketId and isOnline=true) in backend/tests/integration/websocket/connection.test.ts
-- [ ] T038 [P] [US3] Implement WebSocket disconnection test (isOnline=false, socketId cleared) in backend/tests/integration/websocket/connection.test.ts
-- [ ] T039 [P] [US3] Implement WebSocket test for lastActiveAt timestamp updates in backend/tests/integration/websocket/connection.test.ts
-- [ ] T040 [P] [US3] Implement message broadcast test (one client sends, all receive) in backend/tests/integration/websocket/broadcast.test.ts
-- [ ] T041 [P] [US3] Implement message broadcast test with multiple clients (3+ clients) in backend/tests/integration/websocket/broadcast.test.ts
-- [ ] T042 [P] [US3] Implement system message broadcast test (user join/leave) in backend/tests/integration/websocket/broadcast.test.ts
-- [ ] T043 [US3] Implement WebSocket reconnection test in backend/tests/integration/websocket/connection.test.ts
-- [ ] T044 [US3] Add WebSocket error handling tests (invalid message, connection drop) in backend/tests/integration/websocket/connection.test.ts
+- [x] T036 [P] [US3] Implement WebSocket connection test (client connects with username) in backend/tests/integration/websocket/connection.test.ts
+- [x] T037 [P] [US3] Implement WebSocket connection test (User created with socketId and isOnline=true) in backend/tests/integration/websocket/connection.test.ts
+- [x] T038 [P] [US3] Implement WebSocket disconnection test (isOnline=false, socketId cleared) in backend/tests/integration/websocket/connection.test.ts
+- [x] T039 [P] [US3] Implement WebSocket test for lastActiveAt timestamp updates in backend/tests/integration/websocket/connection.test.ts
+- [x] T040 [P] [US3] Implement message broadcast test (one client sends, all receive) in backend/tests/integration/websocket/broadcast.test.ts
+- [x] T041 [P] [US3] Implement message broadcast test with multiple clients (3+ clients) in backend/tests/integration/websocket/broadcast.test.ts
+- [x] T042 [P] [US3] Implement system message broadcast test (user join/leave) in backend/tests/integration/websocket/broadcast.test.ts
+- [x] T043 [US3] Implement WebSocket reconnection test in backend/tests/integration/websocket/connection.test.ts
+- [x] T044 [US3] Add WebSocket error handling tests (invalid message, connection drop) in backend/tests/integration/websocket/connection.test.ts
 
 **Checkpoint**: User Story 3 完了 - WebSocket統合テストが完全に機能し、独立してテスト可能
 
@@ -128,11 +128,11 @@
 
 **Purpose**: すべてのユーザーストーリーに影響する改善と最終調整
 
-- [ ] T045 [P] Run full test suite and verify all tests pass in backend/
-- [ ] T046 [P] Generate coverage report and verify 95%+ coverage in backend/
-- [ ] T047 [P] Run ESLint and Prettier on test code in backend/tests/
-- [ ] T048 [P] Validate test execution time meets performance goals (unit < 1s, DB < 5s, WS < 10s, total < 30s)
-- [ ] T049 [P] Test parallel execution with multiple workers (jest --maxWorkers=4)
+- [x] T045 [P] Run full test suite and verify all tests pass in backend/
+- [x] T046 [P] Generate coverage report and verify 95%+ coverage in backend/
+- [x] T047 [P] Run ESLint and Prettier on test code in backend/tests/
+- [x] T048 [P] Validate test execution time meets performance goals (unit < 1s, DB < 5s, WS < 10s, total < 30s)
+- [x] T049 [P] Test parallel execution with multiple workers (jest --maxWorkers=4)
 - [ ] T050 [P] Validate quickstart.md instructions by following the guide
 - [ ] T051 Update README.md with test execution instructions and coverage badge
 - [ ] T052 [P] Add CI/CD workflow for automated test execution in .github/workflows/test.yml
