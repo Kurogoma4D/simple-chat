@@ -21,6 +21,7 @@ services:
   db-test:
     image: postgres:16-alpine
     container_name: simple-chat-db-test
+    profiles: ["test"]
     environment:
       POSTGRES_USER: testuser
       POSTGRES_PASSWORD: testpass
