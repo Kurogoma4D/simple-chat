@@ -44,4 +44,14 @@ export class MessageService {
     // The actual broadcast logic is in the WebSocket layer
     console.log('[MessageService] Message ready for broadcast:', message.id);
   }
+
+  /**
+   * Delete all messages from the database
+   * Used when all users have left the chat room
+   * @returns Number of deleted messages
+   */
+  async clearAllMessages(): Promise<number> {
+    const result = await prisma.message.deleteMany({});
+    return result.count;
+  }
 }

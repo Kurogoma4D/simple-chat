@@ -28,13 +28,26 @@ describe('WebSocket Connection Tests', () => {
     await teardownTestDatabase(prisma);
   });
 
+  let openClients: WebSocket[] = [];
+
   beforeEach(async () => {
     await clearTestData(prisma);
+  });
+
+  afterEach(() => {
+    // Clean up all WebSocket connections to prevent resource leaks
+    openClients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN || client.readyState === WebSocket.CONNECTING) {
+        client.close();
+      }
+    });
+    openClients = [];
   });
 
   describe('T036: Client connects with username', () => {
     it('should establish WebSocket connection', async () => {
       const client = await createTestWebSocketClient(testServer.port, '山田太郎');
+      openClients.push(client);
 
       expect(client.readyState).toBe(WebSocket.OPEN);
 
@@ -45,6 +58,7 @@ describe('WebSocket Connection Tests', () => {
       const client1 = await createTestWebSocketClient(testServer.port, 'User 1');
       const client2 = await createTestWebSocketClient(testServer.port, 'User 2');
       const client3 = await createTestWebSocketClient(testServer.port, 'User 3');
+      openClients.push(client1, client2, client3);
 
       expect(client1.readyState).toBe(WebSocket.OPEN);
       expect(client2.readyState).toBe(WebSocket.OPEN);
@@ -57,12 +71,16 @@ describe('WebSocket Connection Tests', () => {
 
     it('should receive welcome message on connection', async () => {
       const ws = new WebSocket(`ws://localhost:${testServer.port}`);
+      openClients.push(ws);
+
+      // Register message handler BEFORE connection completes to avoid race condition
+      const messagePromise = waitForWebSocketMessage(ws);
 
       await new Promise<void>((resolve) => {
         ws.on('open', () => resolve());
       });
 
-      const welcomeMessage = await waitForWebSocketMessage(ws);
+      const welcomeMessage = await messagePromise;
 
       expect(welcomeMessage).toHaveProperty('type', 'welcome');
 
@@ -73,6 +91,7 @@ describe('WebSocket Connection Tests', () => {
   describe('T037: User created with socketId and isOnline=true', () => {
     it('should create user in database on connection', async () => {
       const client = await createTestWebSocketClient(testServer.port, 'TestUser');
+      openClients.push(client);
 
       // Wait a bit for database operation
       await new Promise((resolve) => setTimeout(resolve, 100));
@@ -86,6 +105,7 @@ describe('WebSocket Connection Tests', () => {
 
     it('should handle connection with Japanese username', async () => {
       const client = await createTestWebSocketClient(testServer.port, '日本語ユーザー');
+      openClients.push(client);
 
       expect(client.readyState).toBe(WebSocket.OPEN);
 
@@ -96,6 +116,7 @@ describe('WebSocket Connection Tests', () => {
   describe('T038: Disconnection test (isOnline=false, socketId cleared)', () => {
     it('should handle client disconnection', async () => {
       const client = await createTestWebSocketClient(testServer.port, 'DisconnectTest');
+      openClients.push(client);
 
       expect(client.readyState).toBe(WebSocket.OPEN);
 
@@ -114,6 +135,7 @@ describe('WebSocket Connection Tests', () => {
       for (let i = 1; i <= 5; i++) {
         const client = await createTestWebSocketClient(testServer.port, `User ${i}`);
         clients.push(client);
+        openClients.push(client);
       }
 
       // Close all clients
@@ -138,6 +160,7 @@ describe('WebSocket Connection Tests', () => {
   describe('T039: lastActiveAt timestamp updates', () => {
     it('should update timestamp on connection', async () => {
       const client = await createTestWebSocketClient(testServer.port, 'ActiveUser');
+      openClients.push(client);
 
       // Connection itself is activity
       expect(client.readyState).toBe(WebSocket.OPEN);
@@ -148,6 +171,7 @@ describe('WebSocket Connection Tests', () => {
     it('should handle activity from multiple users', async () => {
       const client1 = await createTestWebSocketClient(testServer.port, 'Active1');
       const client2 = await createTestWebSocketClient(testServer.port, 'Active2');
+      openClients.push(client1, client2);
 
       // Both clients are active
       expect(client1.readyState).toBe(WebSocket.OPEN);
@@ -161,6 +185,7 @@ describe('WebSocket Connection Tests', () => {
   describe('T043: WebSocket reconnection test', () => {
     it('should allow reconnection after disconnect', async () => {
       const client1 = await createTestWebSocketClient(testServer.port, 'ReconnectUser');
+      openClients.push(client1);
 
       client1.close();
 
@@ -170,6 +195,7 @@ describe('WebSocket Connection Tests', () => {
 
       // Reconnect with same username
       const client2 = await createTestWebSocketClient(testServer.port, 'ReconnectUser');
+      openClients.push(client2);
 
       expect(client2.readyState).toBe(WebSocket.OPEN);
 
@@ -179,12 +205,14 @@ describe('WebSocket Connection Tests', () => {
     it('should handle rapid reconnections', async () => {
       for (let i = 0; i < 5; i++) {
         const client = await createTestWebSocketClient(testServer.port, 'RapidUser');
+        openClients.push(client);
         client.close();
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
 
       // Final connection should succeed
       const finalClient = await createTestWebSocketClient(testServer.port, 'RapidUser');
+      openClients.push(finalClient);
       expect(finalClient.readyState).toBe(WebSocket.OPEN);
       finalClient.close();
     });
@@ -193,6 +221,7 @@ describe('WebSocket Connection Tests', () => {
   describe('T044: Error handling tests', () => {
     it('should handle invalid message format', async () => {
       const client = await createTestWebSocketClient(testServer.port, 'ErrorTest');
+      openClients.push(client);
 
       // Send invalid JSON
       client.send('invalid json{{{');
@@ -207,6 +236,7 @@ describe('WebSocket Connection Tests', () => {
 
     it('should handle connection drop', async () => {
       const client = await createTestWebSocketClient(testServer.port, 'DropTest');
+      openClients.push(client);
 
       // Simulate connection drop
       client.terminate();
@@ -218,6 +248,7 @@ describe('WebSocket Connection Tests', () => {
 
     it('should handle very long messages', async () => {
       const client = await createTestWebSocketClient(testServer.port, 'LongMessage');
+      openClients.push(client);
 
       const longContent = 'a'.repeat(10000);
       client.send(
@@ -236,6 +267,7 @@ describe('WebSocket Connection Tests', () => {
 
     it('should handle rapid message sending', async () => {
       const client = await createTestWebSocketClient(testServer.port, 'RapidSender');
+      openClients.push(client);
 
       // Send multiple messages rapidly
       for (let i = 0; i < 10; i++) {

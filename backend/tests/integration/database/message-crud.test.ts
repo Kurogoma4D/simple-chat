@@ -12,11 +12,14 @@ describe('Message CRUD Operations', () => {
 
   beforeAll(async () => {
     prisma = await setupTestDatabase();
-    await clearTestData(prisma); // Clear once at the start
   });
 
   afterAll(async () => {
     await teardownTestDatabase(prisma);
+  });
+
+  beforeEach(async () => {
+    await clearTestData(prisma); // Clear before each test
   });
 
   describe('T029: Create operation with User relation', () => {
